@@ -1,89 +1,33 @@
-import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 
-import 'model/exhibitor.dart';
-import 'model/performance.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:http/http.dart';
+
+import 'model/event.dart';
 
 class DataController {
 
   String _url;
-  int _eventId;
 
-  List<Exhibitor> _exhibitors;
-  List<Performance> _performances;
+  DataController(String url) {
 
-  DataController(String url, int eventId) {
-
-    this._url = url;
-    this._eventId = eventId;
-
-    this._exhibitors = new List<Exhibitor>();
-    this._performances = new List<Performance>();
-
-    loadExhibitors();
-    loadPerformances();
-
+    this._url = url;  
   }
 
-  Future<Exhibitor> loadExhibitors() async {
-    final response =
-        await http.get('http://' + this._url + '/api/event/' + this._eventId.toString() + '/exhibitors');
+  Future checkConnection() async {
+    Response response = await http.get('http://' + this._url + '/api');
+    return response;
+  }
 
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON.
-      final decoded = json.decode(response.body);
-      for (var k in decoded) {
-        var exhibitor = new Exhibitor(k['id'], k['name'], k['description'], k['url']);
-        this._exhibitors.add(exhibitor);
-      }
-    } else {
-      // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
+  Future<List<Event>> getEvents() async {
+    List<Event> events = new List<Event>();
+    Response response = await http.get('http://' + this._url + '/api/events');
+    for (var k in json.decode(response.body)) {
+      Event e = new Event(k['id'], k['name'], k['tag'], DateTime.parse(k['start_date']), DateTime.parse(k['end_date']));
+      events.add(e);
     }
-  }
-
-  Future<Performance> loadPerformances() async {
-    final response =
-        await http.get('http://' + this._url + '/api/event/' + this._eventId.toString() + '/performances');
-
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON.
-      final decoded = json.decode(response.body);
-      for (var k in decoded) {
-        var performance = new Performance(k['id'], k['name'], k['description']);
-        this._performances.add(performance);
-      }
-    } else {
-      // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
-    }
-  }
-
-  List<Exhibitor> getExhibitors() {
-    return this._exhibitors;
-  }
-
-  Exhibitor getExhibitor(int id) {
-    for (Exhibitor e in this._exhibitors) {
-      if (e.getId() == id) {
-        return e;
-      }
-    }
-    return null;
-  }
-
-  List<Performance> getPerformances() {
-    return this._performances;
-  }
-
-  Performance getPerformance(int id) {
-    for (Performance p in this._performances) {
-      if (p.getId() == id) {
-        return p;
-      }
-    }
-    return null;
+    return events;
   }
 
 }

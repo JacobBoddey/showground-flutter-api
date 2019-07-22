@@ -17,7 +17,11 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+
   flutter:
+    sdk: flutter
+
+  flutter_test:
     sdk: flutter
 
   http: ^0.12.0+2
@@ -27,8 +31,6 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
 
 # For information on the generic Dart part of this file, see the
