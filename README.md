@@ -1,16 +1,73 @@
-# newark_showground_api
-
-Newark Showground web app API
+# Showground API
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+The following initialises the data controller class and ensures the connection is made.
 
-A few resources to get you started if this is your first Flutter project:
+### Imports:
+	
+~~~~
+import 'package:http/http.dart';
+import 'controller.dart';
+~~~~
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Create new data controller:
+~~~~
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+final host = '127.0.0.1';
+DataController controller = new DataController(host);
+
+Response response = await controller.checkConnection();
+if (response.statusCode == 200) {
+    //Connection has been made
+}
+else {
+    //Connection failed
+}
+
+~~~~
+
+## Events
+
+### Imports:
+
+~~~
+import 'model/event.dart';
+~~~
+
+### Get all events:
+~~~~ 
+List<Event> events = controller.getEvents();
+~~~~
+
+### Get an event by ID:
+~~~~
+Event midlandsShow = controller.getEvent(id);
+~~~~
+
+### Get Exhibitors and Performances:
+
+~~~~
+import 'model/exhibitor';
+import 'model/performance';
+
+List<Exhibitor> exhibitors = midlandsShow.getExhibitors();
+List<Performance> performances = midlandsShow.getPerformances;
+~~~~
+
+## Exhibitors
+
+### Imports:
+
+~~~
+import 'model/exhibitor.dart';
+~~~
+
+### Available functions:
+
+~~~~
+getId();
+getName();
+getDescription():
+getUrl();
+~~~~

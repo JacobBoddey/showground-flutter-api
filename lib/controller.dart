@@ -30,4 +30,11 @@ class DataController {
     return events;
   }
 
+  Future<Event> getEvent(int id) async {
+    Response response = await http.get('http://' + this._url + '/api/event/' + id.toString());
+    var k = json.decode(response.body);
+    Event e = new Event(k['id'], k['name'], k['tag'], DateTime.parse(k['start_date']), DateTime.parse(k['end_date']));
+    return e;
+  }
+
 }
