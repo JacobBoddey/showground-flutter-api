@@ -37,17 +37,20 @@ class Event {
     return this._tag;
   }
 
-  void loadExhibitors() {
-    this._exhibitors = new List<Exhibitor>();
+  List<Exhibitor> getExhibitors() {
+    return this._exhibitors;
+  }
+
+  List<Performance> getPerformances() {
+    return this._performances;
+  }
+
+  void loadExhibitors(List<Exhibitor> exhibitors) {
+    this._exhibitors = exhibitors;
   }
 
   void loadPerformances() {
     this._performances = new List<Performance>();
-  }
-
-  void reload() {
-    loadExhibitors();
-    loadPerformances();
   }
 
 }

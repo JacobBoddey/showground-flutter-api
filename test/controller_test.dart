@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:newark_showground_api/controller.dart';
 import 'package:newark_showground_api/model/event.dart';
+import 'package:newark_showground_api/model/exhibitor.dart';
 
 void main() {
   group('Controller', () {
@@ -22,6 +23,14 @@ void main() {
       final controller = new DataController('152.71.155.90');
       Event e = await controller.getEvent(7);
       expect(e, isNotNull);
+    });
+
+    test('Download event data', () async {
+      final controller = new DataController('152.71.155.90');
+      Event e = await controller.getEvent(7);
+      await controller.downloadEventData(e);
+      List<Exhibitor> exhibitors = e.getExhibitors();
+      expect(exhibitors.length, greaterThan(0));
     });
 
   });

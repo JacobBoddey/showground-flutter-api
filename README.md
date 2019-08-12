@@ -45,14 +45,11 @@ List<Event> events = controller.getEvents();
 Event midlandsShow = controller.getEvent(id);
 ~~~~
 
-### Get Exhibitors and Performances:
+### Download event data:
 
 ~~~~
-import 'model/exhibitor';
-import 'model/performance';
-
-List<Exhibitor> exhibitors = midlandsShow.getExhibitors();
-List<Performance> performances = midlandsShow.getPerformances;
+int eventId = 1;
+controller.downloadEventData(eventId);
 ~~~~
 
 ## Exhibitors
@@ -68,6 +65,24 @@ import 'model/exhibitor.dart';
 ~~~~
 getId();
 getName();
-getDescription():
+getDescription();
 getUrl();
+~~~~
+
+## Performances
+
+### Imports:
+
+~~~
+import 'model/performance.dart';
+~~~
+
+### Available functions:
+
+~~~~
+getId();
+getName();
+getPresenter();
+getType();
+getLocation();
 ~~~~
